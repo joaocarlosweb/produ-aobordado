@@ -1,0 +1,67 @@
+{
+  "gerente": {
+    "senha": "scrypt:32768:8:1$hO9JsGknWg4omNdW$08dbca0722654ccc763d99614820466bf918fbf308c0a15c1309eb36592da26c5c3c0eea191d38348b4191fa0aca713b011cbff1db76cb05acf99e8484caee7e",
+    "tipo": "gerente",
+    "nome": "Anderson"
+  },
+  "joao": {
+    "senha": "scrypt:32768:8:1$I7FNfHZonKsxtQYq$71ee826e2119b4983bc9ec40d13b2b4f37dca5a815b88642872bc90fe92386a939b153ab247312f309498fe9fa1b0b89243be61aa563083ffb7cde92ec5cfd49",
+    "tipo": "colaborador",
+    "nome": "João Silva"
+  },
+  "maria": {
+    "senha": "scrypt:32768:8:1$P8h4yn5GLzVT9iBZ$b94c79ba8613e54e26b8f0a429c17a9e0bb7aa0521bcca1bc543b0c45f844dd1a481c38ba21d9e4a1194c26142f343f55cbd2c2e69bf7d4096d1cf6188d1fd0d",
+    "tipo": "colaborador",
+    "nome": "Maria Santos"
+  },
+  "pedro": {
+    "senha": "scrypt:32768:8:1$badi8DlpbcAVkIRA$6f00688ab0be50ea62938da67b1bcbee62b2257c923160519be1154d723adc0816c0b155e19aa9efe677d4c1a725125d219ac48586d04667593e8be835ae3562",
+    "tipo": "colaborador",
+    "nome": "Pedro Oliveira"
+  },
+  "ana": {
+    "senha": "scrypt:32768:8:1$EzK53DLAhMgn8vP3$3c70fcf4fef6179703300fe7faea03b65a23a45851103d1368a2e7a867bedf9a5afec5619c3e479c5ecfd6d87e6625aaae50fdebf191509a1ffb02fd87d74b22",
+    "tipo": "colaborador",
+    "nome": "Ana Costa da Silva"
+  },
+  "silvanaldo": {
+    "senha": "scrypt:32768:8:1$IsQ4j85JKOyxP0PN$6ed59a51c9623bd84ac68b2907bc9f23e3eb4e979071189f54007174018acd15bb02daa46196170c02d9f519ce5139aff4c7d2c0359b07f4bdbd653b14a6c9cd",
+    "tipo": "colaborador",
+    "nome": "Silvanaldo Novinho"
+  },
+  "del": {
+    "senha": "scrypt:32768:8:1$z23LR2ukhTnNhJ7h$45a3a38d307d0f24a107729f2afc59ab3875dac62a7521bcf68f90d8ae5b26812d4207181bd767e886ff92195c9ba836b0159066f029d1d2181cd77f0971eabc",
+    "tipo": "colaborador",
+    "nome": "Del Scoria"
+  },
+  "dell": {
+    "senha": "scrypt:32768:8:1$wYXg6CLPjBd8gmUt$6f16a57c3c36f18e6ecf4e8284fcf8a19f9e6cc4285096c0e4f4af676fa50ccd7cdcef266bad6e56d653bf976d74a6efd1a760cca2ae129ce958e2744c4df255",
+    "tipo": "colaborador",
+    "nome": "João carlos"
+  },
+  "ery": {
+    "senha": "scrypt:32768:8:1$VqUa9APIAJy9scij$c2a0c90db57f69a124cd01903308b2de2d75b084ba4864aea29ca9ea18df712467e092a9f1d48c9bea93617b8a6a03876a69d717c1a2dd819e6c8222142ff951",
+    "tipo": "colaborador",
+    "nome": "Erivaneide"
+  },
+  "godim": {
+    "senha": "scrypt:32768:8:1$m482mKc9LztsiwNV$37a2d0636ee4bf000a36b830e4f679c459b678609ed658f6870bcfd679f173bb822ee0bf885218812558a5c9458a5f39d85c743eb816081a3020ae2ed4de702d",
+    "tipo": "colaborador",
+    "nome": "Moises"
+  },
+  "thiago": {
+    "senha": "scrypt:32768:8:1$uNLCwxohhRqua6eF$8f18c1c119fd1ec48a94b1eb09966a12d7ed2fdb8eca566d8060d9c256a0a3434f11c1bb285906f6c38d88b3c4d9d596b34983ced6e0975c1e2dfc584bdd5981",
+    "tipo": "colaborador",
+    "nome": "Thiago"
+  },
+  "amanda": {
+    "senha": "scrypt:32768:8:1$wFtuoTZ1BvTVXvgo$6d8a0eaa7c0a0a7a98aa6c05775c64c066c1c99f8a42340cdf408480fa17829ca28794e9db8a96c7ca5629143a1c2c523d30460a224ef66bfd96a9d2efde6af0",
+    "tipo": "colaborador",
+    "nome": "Amanda"
+  },
+  "joaocarlos": {
+    "senha": "scrypt:32768:8:1$YapAMRxCnN1o9RQz$bdee600579ac2e1bfb7814bffe339cf066b3e24c922bd6b463201e5ed88ff85ce431e44b663ee973ed76067efbbccf448196d0864605795cc849ab270e42fbc4",
+    "tipo": "colaborador",
+    "nome": "João Carlos Del"
+  }
+}

@@ -1,0 +1,260 @@
+# 🎨 Sistema de Produção - Bordados
+
+Sistema modernizado de gestão de produção com arquitetura cliente-servidor.
+
+## 🚀 Características
+
+### ✨ Design Moderno
+- Interface responsiva e intuitiva
+- Tema com gradientes e animações suaves
+- Totalmente adaptável para mobile, tablet e desktop
+
+### 👥 Controle de Acesso
+- **Gerente**: Acesso completo (exportar, excluir registros)
+- **Colaborador**: Pode adicionar e editar apenas suas produções
+
+### 🔧 Funcionalidades
+- ✅ Registro de produção de bordados
+- ✏️ Edição de registros (correção de erros)
+- 📊 Dashboard com estatísticas em tempo real
+- 💾 Exportação para Excel com formatação
+- 🔐 Sistema de login seguro
+- 📱 Interface 100% responsiva
+
+---
+
+## 📋 Pré-requisitos
+
+- Python 3.8 ou superior
+- Navegador web moderno (Chrome, Firefox, Edge, Safari)
+
+---
+
+## 🛠️ Instalação
+
+### 1. Instalar Dependências
+
+```bash
+# Instalar pacotes Python
+pip install -r requirements.txt
+```
+
+### 2. Estrutura de Arquivos
+
+Organize os arquivos da seguinte forma:
+
+```
+projeto/
+│
+├── app.py                    # Backend Flask
+├── index.html                # Frontend
+├── requirements.txt          # Dependências
+│
+├── dados_producao.json       # Criado automaticamente
+├── bordadores.json           # Criado automaticamente
+└── usuarios.json             # Criado automaticamente
+```
+
+---
+
+## ▶️ Executando o Sistema
+
+### 1. Iniciar o Backend
+
+```bash
+python app.py
+```
+
+O servidor iniciará em `http://localhost:5000`
+
+### 2. Abrir o Frontend
+
+- **Opção 1**: Abra o arquivo `index.html` diretamente no navegador
+- **Opção 2**: Use um servidor HTTP simples:
+
+```bash
+# Python 3
+python -m http.server 8000
+
+# Acesse: http://localhost:8000
+```
+
+---
+
+## 🔐 Credenciais de Acesso
+
+### Gerente (Acesso Total)
+- **Usuário**: `gerente`
+- **Senha**: `admin123`
+
+### Colaborador (Acesso Limitado)
+- **Usuário**: `colaborador`
+- **Senha**: `colab123`
+
+---
+
+## 📱 Funcionalidades por Perfil
+
+### 👔 Gerente
+- ✅ Adicionar registros de produção
+- ✏️ Editar qualquer registro
+- 🗑️ Excluir registros
+- 💾 Exportar planilhas Excel
+- 📊 Visualizar todas as produções
+- 👥 Adicionar novos bordadores
+
+### 👷 Colaborador
+- ✅ Adicionar registros de produção
+- ✏️ Editar seus próprios registros
+- 📊 Visualizar apenas suas produções
+- 👥 Adicionar novos bordadores
+
+---
+
+## 📊 Recursos da Interface
+
+### Dashboard
+- Total de registros
+- Total de peças produzidas
+- Total de pontos
+
+### Formulário de Registro
+- Seleção de bordador
+- Data automática
+- Campos de ID, FOLHA, QTD
+- Checkboxes para características (BONE, CUMBUCA, etc.)
+- Campo de pontos
+
+### Tabela de Registros
+- Visualização completa dos dados
+- Botões de ação (editar/excluir)
+- Scroll horizontal para muitas colunas
+- Responsiva para mobile
+
+### Exportação Excel
+- Formatação profissional
+- Cabeçalhos coloridos
+- Colunas ajustadas automaticamente
+- Totalizadores incluídos
+
+---
+
+## 🎨 Personalização
+
+### Cores do Tema
+
+Edite as variáveis CSS em `index.html`:
+
+```css
+:root {
+    --primary: #6366f1;      /* Cor principal */
+    --success: #10b981;      /* Cor de sucesso */
+    --danger: #ef4444;       /* Cor de perigo */
+    --warning: #f59e0b;      /* Cor de aviso */
+}
+```
+
+### Adicionar Novos Usuários
+
+Edite o arquivo `usuarios.json` (criado após primeiro login):
+
+```json
+{
+  "novo_usuario": {
+    "senha": "hash_da_senha",
+    "tipo": "colaborador",
+    "nome": "Nome do Usuário"
+  }
+}
+```
+
+Para gerar hash de senha:
+
+```python
+from werkzeug.security import generate_password_hash
+print(generate_password_hash("sua_senha"))
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Erro de CORS
+- Certifique-se de que o backend está rodando
+- Verifique se a URL da API está correta no frontend
+
+### Erro ao Exportar Excel
+- Verifique se a pasta `exports/` existe
+- Confirme que tem permissões de escrita
+
+### Dados não Aparecem
+- Verifique o console do navegador (F12)
+- Confirme que os arquivos JSON estão sendo criados
+
+---
+
+## 📦 Estrutura de Dados
+
+### Registro de Produção
+
+```json
+{
+  "id": 1,
+  "timestamp": "2025-10-04T10:30:00",
+  "Data": "2025-10-04",
+  "Bordador": "João Silva",
+  "ID": "001",
+  "FOLHA": "F001",
+  "QTD": "100",
+  "BONE": "X",
+  "CUMBUCA": "",
+  "VISEIRA": "X",
+  "BORDADO": "X",
+  "AP_PINT": "",
+  "AP_GRAV": "X",
+  "FRENTE": "X",
+  "LATERAL": "",
+  "TRASEIRA": "X",
+  "PONTOS": "5000"
+}
+```
+
+---
+
+## 🔄 Atualizações Futuras
+
+- [ ] Relatórios por período
+- [ ] Gráficos de produtividade
+- [ ] Exportação para PDF
+- [ ] Sistema de notificações
+- [ ] Backup automático
+- [ ] Modo escuro
+
+---
+
+## 📞 Suporte
+
+Para dúvidas ou problemas, verifique:
+1. Console do navegador (F12)
+2. Logs do servidor Python
+3. Arquivo `dados_producao.json` existe
+
+---
+
+## 📄 Licença
+
+Sistema desenvolvido para uso interno.
+
+---
+
+## 🎯 Dicas de Uso
+
+1. **Sempre salve seus dados**: O sistema salva automaticamente
+2. **Use a função editar**: Corrige erros sem perder dados
+3. **Exporte regularmente**: Faça backups das planilhas
+4. **Mobile-friendly**: Use em qualquer dispositivo
+5. **Atalhos**: Enter submete formulários
+
+---
+
+**Desenvolvido com ❤️ para otimizar a gestão de produção**
