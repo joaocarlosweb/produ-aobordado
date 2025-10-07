@@ -1,20 +1,17 @@
-# Base oficial do Python 3.12 (compatível com pandas 2.2.2)
-FROM python:3.12-slim
+# Imagem base leve do Python
+FROM python:3.10-slim
 
-# Define diretório de trabalho
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copia dependências
-COPY requirements.txt .
-
-# Instala dependências
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copia o restante dos arquivos do projeto
+# Copia todos os arquivos do projeto
 COPY . .
 
-# Expõe a porta padrão do Render (ou Flask)
-EXPOSE 10000
+# Instala as dependências (usa cache mínimo para mais velocidade)
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Comando para rodar o app com Gunicorn (necessário pro Render)
-CMD ["gunicorn", "app:app"]
+# Expõe a porta que o Render usa por padrão
+EXPOSE 5000
+
+# Comando para rodar o app em produção
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
