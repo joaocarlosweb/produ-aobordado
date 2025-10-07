@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 from flask_cors import CORS
 from datetime import datetime
 import pandas as pd
@@ -16,6 +16,10 @@ app.config['SECRET_KEY'] = secrets.token_hex(16)
 DATA_FILE = 'dados_producao.json'
 BORDADORES_FILE = 'bordadores.json'
 USERS_FILE = 'usuarios.json'
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # Funções auxiliares
 def carregar_dados():
