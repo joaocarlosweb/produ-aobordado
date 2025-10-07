@@ -366,20 +366,7 @@ def add_usuario():
         'tipo': tipo
     }})
 
-@app.route('/')
-def home():
-    return jsonify({
-        "status": "online",
-        "mensagem": "API de Produção de Bordado está rodando!",
-        "rotas": [
-            "/api/login",
-            "/api/bordadores",
-            "/api/producao",
-            "/api/usuarios",
-            "/api/estatisticas",
-            "/api/exportar"
-        ]
-    })
+
 
 
 if __name__ == '__main__':
