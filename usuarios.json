@@ -14,16 +14,6 @@
     "tipo": "colaborador",
     "nome": "Maria Santos"
   },
-  "pedro": {
-    "senha": "scrypt:32768:8:1$badi8DlpbcAVkIRA$6f00688ab0be50ea62938da67b1bcbee62b2257c923160519be1154d723adc0816c0b155e19aa9efe677d4c1a725125d219ac48586d04667593e8be835ae3562",
-    "tipo": "colaborador",
-    "nome": "Pedro Oliveira"
-  },
-  "ana": {
-    "senha": "scrypt:32768:8:1$EzK53DLAhMgn8vP3$3c70fcf4fef6179703300fe7faea03b65a23a45851103d1368a2e7a867bedf9a5afec5619c3e479c5ecfd6d87e6625aaae50fdebf191509a1ffb02fd87d74b22",
-    "tipo": "colaborador",
-    "nome": "Ana Costa da Silva"
-  },
   "silvanaldo": {
     "senha": "scrypt:32768:8:1$IsQ4j85JKOyxP0PN$6ed59a51c9623bd84ac68b2907bc9f23e3eb4e979071189f54007174018acd15bb02daa46196170c02d9f519ce5139aff4c7d2c0359b07f4bdbd653b14a6c9cd",
     "tipo": "colaborador",

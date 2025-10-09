@@ -589,7 +589,8 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Entrar</button>
             </form>
-            <div style="margin-top: 20px; padding: 15px; background: var(--light); border-radius: 10px; font-size: 12px;">
+            <div
+                style="margin-top: 20px; padding: 15px; background: var(--light); border-radius: 10px; font-size: 12px;">
                 <strong>Acesso de teste:</strong><br>
                 Gerente: <code>gerente</code> / <code>admin123</code><br>
                 Colaborador: <code>joao</code> / <code>123456</code>
@@ -608,7 +609,8 @@
                     <strong id="userName"></strong> (<span id="userType"></span>)
                 </div>
                 <button class="btn btn-secondary" onclick="logout()">Sair</button>
-                <button id="btnAddUsuario" class="btn btn-primary hidden" onclick="showAddUsuarioModal()">Novo Usuário</button>
+                <button id="btnAddUsuario" class="btn btn-primary hidden" onclick="showAddUsuarioModal()">Novo
+                    Usuário</button>
             </div>
         </div>
 
@@ -746,6 +748,9 @@
                 <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                     <h2>Registros de Produção</h2>
                     <div id="gerenteActions" class="hidden" style="display: flex; gap: 10px;">
+                        <a href="{{ url_for('pesquisa') }}" class="btn btn-primary">🔍 Pesquisa</a>
+                        <a href="{{ url_for('gerenciamento') }}" class="btn btn-secondary">⚙️ Gerenciamento</a>
+
                         <button class="btn btn-primary btn-icon" onclick="exportarExcel()">
                             Exportar
                         </button>
@@ -900,29 +905,29 @@
             </div>
             <input type="hidden" id="editBordadorNomeAntigo">
             <input type="hidden" id="editBordadorUsername">
-            
+
             <div class="form-group">
                 <label>Nome</label>
                 <input type="text" id="editBordadorNome">
             </div>
-            
+
             <div id="editUsuarioFields" style="display: none;">
                 <div class="form-group">
                     <label>Usuário (login)</label>
                     <input type="text" id="editUsuarioLogin" readonly style="background: #f1f5f9;">
                 </div>
-                
+
                 <div class="form-group">
                     <label>Nova Senha (deixe em branco para não alterar)</label>
                     <input type="password" id="editUsuarioSenha" placeholder="Digite a nova senha">
                 </div>
-                
+
                 <div class="form-group">
                     <label>Confirmar Nova Senha</label>
                     <input type="password" id="editUsuarioSenhaConfirm" placeholder="Confirme a nova senha">
                 </div>
             </div>
-            
+
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeModal('modalEditBordador')">Cancelar</button>
                 <button class="btn btn-success" onclick="salvarEdicaoBordador()">Salvar</button>

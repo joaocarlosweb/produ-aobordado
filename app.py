@@ -21,6 +21,17 @@ USERS_FILE = 'usuarios.json'
 def index():
     return render_template('index.html')
 
+# Rotas de Botões 
+
+@app.route('/gerenciamento')
+def gerenciamento():
+    return render_template('gerenciamento.html')  # ou 'gerenciamento.html' se for outro arquivo
+
+@app.route('/pesquisa')
+def pesquisa():
+    return render_template('pesquisa.html')
+
+
 # Funções auxiliares
 def carregar_dados():
     if os.path.exists(DATA_FILE):
@@ -85,7 +96,8 @@ def login():
     
     return jsonify({'success': False, 'message': 'Credenciais inválidas'}), 401
 
-# Rotas de Bordadores
+
+# # Rotas de Bordadores
 @app.route('/api/bordadores', methods=['GET'])
 def get_bordadores():
     return jsonify(carregar_bordadores())
@@ -328,6 +340,143 @@ def get_estatisticas():
         'total_pontos': total_pontos
     })
 
+
+@app.route('/api/buscar-pedido/<pedido_id>', methods=['GET'])
+def buscar_pedido(pedido_id):
+    """Busca todos os registros de um pedido específico e agrupa por bordador e posição"""
+    dados = carregar_dados()
+    
+    # Filtrar registros pelo ID do pedido
+    registros = [d for d in dados if d.get('ID') == pedido_id]
+    
+    if not registros:
+        return jsonify({
+            'success': False,
+            'message': 'Nenhum registro encontrado para este ID'
+        }), 404
+    
+    # Organizar informações por posição
+    resultado = {
+        'id_pedido': pedido_id,
+        'total_registros': len(registros),
+        'bordadores': {},
+        'posicoes': {
+            'FRENTE': [],
+            'LATERAL': [],
+            'TRASEIRA': []
+        },
+        'tipos': {
+            'BONE': [],
+            'CUMBUCA': [],
+            'VISEIRA': []
+        },
+        'processos': {
+            'BORDADO': [],
+            'AP_PINT': [],
+            'AP_GRAV': []
+        },
+        'resumo': {
+            'total_pecas': 0,
+            'total_pontos': 0
+        }
+    }
+    
+    # Processar cada registro
+    for registro in registros:
+        bordador = registro.get('Bordador', 'Desconhecido')
+        
+        # Inicializar bordador se não existe
+        if bordador not in resultado['bordadores']:
+            resultado['bordadores'][bordador] = {
+                'registros': 0,
+                'pecas': 0,
+                'pontos': 0,
+                'posicoes': [],
+                'data': registro.get('Data', '')
+            }
+        
+        # Contar registros e somar totais
+        resultado['bordadores'][bordador]['registros'] += 1
+        
+        try:
+            qtd = int(''.join(filter(str.isdigit, str(registro.get('QTD', '0')))))
+            resultado['bordadores'][bordador]['pecas'] += qtd
+            resultado['resumo']['total_pecas'] += qtd
+        except:
+            pass
+        
+        try:
+            pontos = int(''.join(filter(str.isdigit, str(registro.get('PONTOS', '0')))))
+            resultado['bordadores'][bordador]['pontos'] += pontos
+            resultado['resumo']['total_pontos'] += pontos
+        except:
+            pass
+        
+        # Verificar posições
+        if registro.get('FRENTE') == 'X':
+            resultado['posicoes']['FRENTE'].append({
+                'bordador': bordador,
+                'qtd': registro.get('QTD', '0'),
+                'pontos': registro.get('PONTOS', '0'),
+                'data': registro.get('Data', ''),
+                'bordado': registro.get('BORDADO', '') == 'X'
+            })
+            if 'Frente' not in resultado['bordadores'][bordador]['posicoes']:
+                resultado['bordadores'][bordador]['posicoes'].append('Frente')
+        
+        if registro.get('LATERAL') == 'X':
+            resultado['posicoes']['LATERAL'].append({
+                'bordador': bordador,
+                'qtd': registro.get('QTD', '0'),
+                'pontos': registro.get('PONTOS', '0'),
+                'data': registro.get('Data', ''),
+                'bordado': registro.get('BORDADO', '') == 'X'
+            })
+            if 'Lateral' not in resultado['bordadores'][bordador]['posicoes']:
+                resultado['bordadores'][bordador]['posicoes'].append('Lateral')
+        
+        if registro.get('TRASEIRA') == 'X':
+            resultado['posicoes']['TRASEIRA'].append({
+                'bordador': bordador,
+                'qtd': registro.get('QTD', '0'),
+                'pontos': registro.get('PONTOS', '0'),
+                'data': registro.get('Data', ''),
+                'bordado': registro.get('BORDADO', '') == 'X'
+            })
+            if 'Traseira' not in resultado['bordadores'][bordador]['posicoes']:
+                resultado['bordadores'][bordador]['posicoes'].append('Traseira')
+        
+        # Verificar tipos
+        if registro.get('BONE') == 'X':
+            if bordador not in [t['bordador'] for t in resultado['tipos']['BONE']]:
+                resultado['tipos']['BONE'].append({'bordador': bordador})
+        
+        if registro.get('CUMBUCA') == 'X':
+            if bordador not in [t['bordador'] for t in resultado['tipos']['CUMBUCA']]:
+                resultado['tipos']['CUMBUCA'].append({'bordador': bordador})
+        
+        if registro.get('VISEIRA') == 'X':
+            if bordador not in [t['bordador'] for t in resultado['tipos']['VISEIRA']]:
+                resultado['tipos']['VISEIRA'].append({'bordador': bordador})
+        
+        # Verificar processos
+        if registro.get('BORDADO') == 'X':
+            if bordador not in [p['bordador'] for p in resultado['processos']['BORDADO']]:
+                resultado['processos']['BORDADO'].append({'bordador': bordador})
+        
+        if registro.get('AP_PINT') == 'X':
+            if bordador not in [p['bordador'] for p in resultado['processos']['AP_PINT']]:
+                resultado['processos']['AP_PINT'].append({'bordador': bordador})
+        
+        if registro.get('AP_GRAV') == 'X':
+            if bordador not in [p['bordador'] for p in resultado['processos']['AP_GRAV']]:
+                resultado['processos']['AP_GRAV'].append({'bordador': bordador})
+    
+    return jsonify({
+        'success': True,
+        'resultado': resultado
+    })
+
 # Rota para Gerente adicionar usuários
 @app.route('/api/usuarios', methods=['POST'])
 def add_usuario():
@@ -366,7 +515,124 @@ def add_usuario():
         'tipo': tipo
     }})
 
+# Adicione estas rotas no seu app.py
 
+# Rota para listar todos os usuários
+@app.route('/api/usuarios', methods=['GET'])
+def get_usuarios():
+    usuarios = carregar_usuarios()
+    # Remover senhas antes de enviar
+    usuarios_safe = {}
+    for username, data in usuarios.items():
+        usuarios_safe[username] = {
+            'nome': data.get('nome'),
+            'tipo': data.get('tipo')
+        }
+    return jsonify(usuarios_safe)
+
+# Rota para atualizar usuário (já existe POST, agora adicionar PUT)
+@app.route('/api/usuarios/<username>', methods=['PUT'])
+def update_usuario(username):
+    data = request.json
+    usuarios = carregar_usuarios()
+    
+    if username not in usuarios:
+        return jsonify({'success': False, 'message': 'Usuário não encontrado'}), 404
+    
+    # Atualizar dados
+    if 'nome' in data and data['nome']:
+        old_name = usuarios[username]['nome']
+        usuarios[username]['nome'] = data['nome']
+        
+        # Atualizar nome nos bordadores se necessário
+        if usuarios[username]['tipo'] == 'colaborador':
+            bordadores = carregar_bordadores()
+            if old_name in bordadores:
+                index = bordadores.index(old_name)
+                bordadores[index] = data['nome']
+                salvar_bordadores(bordadores)
+            
+            # Atualizar nos registros de produção
+            dados = carregar_dados()
+            for registro in dados:
+                if registro.get('Bordador') == old_name:
+                    registro['Bordador'] = data['nome']
+            salvar_dados(dados)
+    
+    if 'senha' in data and data['senha']:
+        from werkzeug.security import generate_password_hash
+        usuarios[username]['senha'] = generate_password_hash(data['senha'])
+    
+    if 'tipo' in data:
+        usuarios[username]['tipo'] = data['tipo']
+    
+    salvar_usuarios(usuarios)
+    
+    return jsonify({
+        'success': True,
+        'usuario': {
+            'username': username,
+            'nome': usuarios[username]['nome'],
+            'tipo': usuarios[username]['tipo']
+        }
+    })
+
+# Rota para excluir usuário
+@app.route('/api/usuarios/<username>', methods=['DELETE'])
+def delete_usuario(username):
+    usuarios = carregar_usuarios()
+    
+    if username not in usuarios:
+        return jsonify({'success': False, 'message': 'Usuário não encontrado'}), 404
+    
+    # Não permitir excluir o gerente principal
+    if username == 'gerente':
+        return jsonify({
+            'success': False,
+            'message': 'Não é possível excluir o usuário gerente principal'
+        }), 400
+    
+    nome_usuario = usuarios[username]['nome']
+    tipo_usuario = usuarios[username]['tipo']
+    
+    # Remover dos bordadores se for colaborador
+    if tipo_usuario == 'colaborador':
+        bordadores = carregar_bordadores()
+        if nome_usuario in bordadores:
+            bordadores.remove(nome_usuario)
+            salvar_bordadores(bordadores)
+    
+    # Remover o usuário
+    del usuarios[username]
+    salvar_usuarios(usuarios)
+    
+    return jsonify({
+        'success': True,
+        'message': f'Usuário {username} excluído com sucesso'
+    })
+
+# Rota para alterar senha
+@app.route('/api/usuarios/<username>/senha', methods=['PUT'])
+def change_password(username):
+    data = request.json
+    usuarios = carregar_usuarios()
+    
+    if username not in usuarios:
+        return jsonify({'success': False, 'message': 'Usuário não encontrado'}), 404
+    
+    nova_senha = data.get('senha')
+    
+    if not nova_senha or len(nova_senha) < 6:
+        return jsonify({'success': False, 'message': 'Senha deve ter no mínimo 6 caracteres'}), 400
+    
+    from werkzeug.security import generate_password_hash
+    usuarios[username]['senha'] = generate_password_hash(nova_senha)
+    salvar_usuarios(usuarios)
+    
+    return jsonify({
+        'success': True,
+        'message': 'Senha alterada com sucesso'
+    })
 
 
 if __name__ == '__main__':

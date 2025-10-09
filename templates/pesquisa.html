@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Pedido - Sistema de Produção</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header h1 {
+            color: var(--dark);
+            font-size: 1.8rem;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .search-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-search {
+            padding: 12px 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-search:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .results-header {
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .results-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .positions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .position-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .position-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+
+        .position-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .position-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .position-frente .position-icon {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+        }
+
+        .position-lateral .position-icon {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+
+        .position-traseira .position-icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .position-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .bordador-item {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .bordador-name {
+            font-weight: bold;
+            color: var(--dark);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .bordador-details {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-bordado {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        .bordadores-summary {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .bordadores-summary h3 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .bordador-summary-item {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .bordador-info h4 {
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .bordador-positions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .position-badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .position-badge-frente {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .position-badge-lateral {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .position-badge-traseira {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .bordador-stats {
+            text-align: right;
+        }
+
+        .bordador-stat {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .bordador-stat strong {
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            background: white;
+            padding: 60px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .no-results h3 {
+            color: var(--dark);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .no-results p {
+            color: #64748b;
+        }
+
+        @media (max-width: 768px) {
+            .positions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-form {
+                flex-direction: column;
+            }
+
+            .form-group {
+                width: 100%;
+            }
+
+            .bordador-summary-item {
+                grid-template-columns: 1fr;
+            }
+
+            .bordador-stats {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Buscar Pedido</h1>
+            <a href="{{ url_for('gerenciamento') }}" class="btn btn-primary">← Voltar ao Dashboard</a>
+        </div>
+
+        <div class="search-card">
+            <form class="search-form" id="searchForm">
+                <div class="form-group">
+                    <label for="pedidoId">ID do Pedido</label>
+                    <input 
+                        type="text" 
+                        id="pedidoId" 
+                        placeholder="Digite o ID do pedido (ex: 1425487)"
+                        required
+                    >
+                </div>
+                <button type="submit" class="btn-search">🔎 Buscar</button>
+            </form>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <!-- Resultados serão inseridos aqui -->
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+
+        document.getElementById('searchForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const pedidoId = document.getElementById('pedidoId').value.trim();
+            
+            if (!pedidoId) return;
+
+            await buscarPedido(pedidoId);
+        });
+
+        async function buscarPedido(pedidoId) {
+            try {
+                const response = await fetch(`${API_URL}/buscar-pedido/${pedidoId}`);
+                const data = await response.json();
+
+                const resultsContainer = document.getElementById('resultsContainer');
+
+                if (!data.success) {
+                    resultsContainer.style.display = 'block';
+                    resultsContainer.innerHTML = `
+                        <div class="no-results">
+                            <div class="no-results-icon">📦</div>
+                            <h3>Nenhum registro encontrado</h3>
+                            <p>Não há registros de produção para o ID: <strong>${pedidoId}</strong></p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const resultado = data.resultado;
+                
+                resultsContainer.style.display = 'block';
+                resultsContainer.innerHTML = `
+                    <div class="results-header">
+                        <h2>📋 Pedido #${resultado.id_pedido}</h2>
+                        <div class="results-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">${resultado.total_registros}</div>
+                                <div class="stat-label">Registros</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${resultado.resumo.total_pecas}</div>
+                                <div class="stat-label">Peças Totais</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${resultado.resumo.total_pontos.toLocaleString()}</div>
+                                <div class="stat-label">Pontos Totais</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${Object.keys(resultado.bordadores).length}</div>
+                                <div class="stat-label">Bordadores</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${renderBordadoresSummary(resultado.bordadores)}
+                    ${renderPositions(resultado.posicoes)}
+                `;
+
+            } catch (error) {
+                console.error('Erro ao buscar pedido:', error);
+                alert('Erro ao buscar pedido. Verifique se o servidor está rodando.');
+            }
+        }
+
+        function renderBordadoresSummary(bordadores) {
+            const items = Object.entries(bordadores).map(([nome, info]) => `
+                <div class="bordador-summary-item">
+                    <div class="bordador-info">
+                        <h4>👤 ${nome}</h4>
+                        <div class="bordador-positions">
+                            ${info.posicoes.map(pos => {
+                                let badgeClass = 'position-badge-';
+                                if (pos === 'Frente') badgeClass += 'frente';
+                                else if (pos === 'Lateral') badgeClass += 'lateral';
+                                else if (pos === 'Traseira') badgeClass += 'traseira';
+                                return `<span class="position-badge ${badgeClass}">${pos}</span>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                    <div class="bordador-stats">
+                        <div class="bordador-stat">
+                            <strong>${info.registros}</strong> registro(s)
+                        </div>
+                        <div class="bordador-stat">
+                            <strong>${info.pecas}</strong> peças
+                        </div>
+                        <div class="bordador-stat">
+                            <strong>${info.pontos.toLocaleString()}</strong> pontos
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="bordadores-summary">
+                    <h3>👥 Resumo por Bordador</h3>
+                    ${items}
+                </div>
+            `;
+        }
+
+        function renderPositions(posicoes) {
+            return `
+                <div class="positions-grid">
+                    ${renderPositionCard('FRENTE', posicoes.FRENTE, 'F', 'position-frente')}
+                    ${renderPositionCard('LATERAL', posicoes.LATERAL, 'L', 'position-lateral')}
+                    ${renderPositionCard('TRASEIRA', posicoes.TRASEIRA, 'T', 'position-traseira')}
+                </div>
+            `;
+        }
+
+        function renderPositionCard(title, items, icon, className) {
+            if (items.length === 0) {
+                return `
+                    <div class="position-card ${className}">
+                        <div class="position-header">
+                            <div class="position-icon">${icon}</div>
+                            <div class="position-title">${title}</div>
+                        </div>
+                        <div class="empty-message">
+                            Nenhum registro para esta posição
+                        </div>
+                    </div>
+                `;
+            }
+
+            const bordadoresHtml = items.map(item => `
+                <div class="bordador-item">
+                    <div class="bordador-name">${item.bordador}</div>
+                    <div class="bordador-details">
+                        <div class="detail-item">
+                            📦 <strong>${item.qtd}</strong> peças
+                        </div>
+                        <div class="detail-item">
+                            🎯 <strong>${parseInt(item.pontos).toLocaleString()}</strong> pontos
+                        </div>
+                        <div class="detail-item">
+                            📅 ${formatDate(item.data)}
+                        </div>
+                        ${item.bordado ? '<span class="badge badge-bordado">BORDADO</span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            return `
+                <div class="position-card ${className}">
+                    <div class="position-header">
+                        <div class="position-icon">${icon}</div>
+                        <div class="position-title">${title}</div>
+                    </div>
+                    ${bordadoresHtml}
+                </div>
+            `;
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Data não informada';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+    </script>
+</body>
+</html>
