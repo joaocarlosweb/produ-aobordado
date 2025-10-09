@@ -29,16 +29,6 @@
     "tipo": "colaborador",
     "nome": "João carlos"
   },
-  "ery": {
-    "senha": "scrypt:32768:8:1$VqUa9APIAJy9scij$c2a0c90db57f69a124cd01903308b2de2d75b084ba4864aea29ca9ea18df712467e092a9f1d48c9bea93617b8a6a03876a69d717c1a2dd819e6c8222142ff951",
-    "tipo": "colaborador",
-    "nome": "Erivaneide"
-  },
-  "godim": {
-    "senha": "scrypt:32768:8:1$m482mKc9LztsiwNV$37a2d0636ee4bf000a36b830e4f679c459b678609ed658f6870bcfd679f173bb822ee0bf885218812558a5c9458a5f39d85c743eb816081a3020ae2ed4de702d",
-    "tipo": "colaborador",
-    "nome": "Moises"
-  },
   "thiago": {
     "senha": "scrypt:32768:8:1$uNLCwxohhRqua6eF$8f18c1c119fd1ec48a94b1eb09966a12d7ed2fdb8eca566d8060d9c256a0a3434f11c1bb285906f6c38d88b3c4d9d596b34983ced6e0975c1e2dfc584bdd5981",
     "tipo": "colaborador",
