@@ -5,43 +5,8 @@
     "nome": "Anderson"
   },
   "joao": {
-    "senha": "scrypt:32768:8:1$I7FNfHZonKsxtQYq$71ee826e2119b4983bc9ec40d13b2b4f37dca5a815b88642872bc90fe92386a939b153ab247312f309498fe9fa1b0b89243be61aa563083ffb7cde92ec5cfd49",
+    "senha": "scrypt:32768:8:1$8vpPFHR1T3wLuEVT$13db9ab1c512af556ca4a11626828ecd8303a3ae3caefd0c5a7fe7cafeaacf03281ef9116f58cc471d87df09434045d4b1555e01eba7af7d8dff11107b1e523b",
     "tipo": "colaborador",
-    "nome": "João Silva"
-  },
-  "maria": {
-    "senha": "scrypt:32768:8:1$P8h4yn5GLzVT9iBZ$b94c79ba8613e54e26b8f0a429c17a9e0bb7aa0521bcca1bc543b0c45f844dd1a481c38ba21d9e4a1194c26142f343f55cbd2c2e69bf7d4096d1cf6188d1fd0d",
-    "tipo": "colaborador",
-    "nome": "Maria Santos"
-  },
-  "silvanaldo": {
-    "senha": "scrypt:32768:8:1$IsQ4j85JKOyxP0PN$6ed59a51c9623bd84ac68b2907bc9f23e3eb4e979071189f54007174018acd15bb02daa46196170c02d9f519ce5139aff4c7d2c0359b07f4bdbd653b14a6c9cd",
-    "tipo": "colaborador",
-    "nome": "Silvanaldo Novinho"
-  },
-  "del": {
-    "senha": "scrypt:32768:8:1$z23LR2ukhTnNhJ7h$45a3a38d307d0f24a107729f2afc59ab3875dac62a7521bcf68f90d8ae5b26812d4207181bd767e886ff92195c9ba836b0159066f029d1d2181cd77f0971eabc",
-    "tipo": "colaborador",
-    "nome": "Del Scoria"
-  },
-  "dell": {
-    "senha": "scrypt:32768:8:1$wYXg6CLPjBd8gmUt$6f16a57c3c36f18e6ecf4e8284fcf8a19f9e6cc4285096c0e4f4af676fa50ccd7cdcef266bad6e56d653bf976d74a6efd1a760cca2ae129ce958e2744c4df255",
-    "tipo": "colaborador",
-    "nome": "João carlos"
-  },
-  "thiago": {
-    "senha": "scrypt:32768:8:1$uNLCwxohhRqua6eF$8f18c1c119fd1ec48a94b1eb09966a12d7ed2fdb8eca566d8060d9c256a0a3434f11c1bb285906f6c38d88b3c4d9d596b34983ced6e0975c1e2dfc584bdd5981",
-    "tipo": "colaborador",
-    "nome": "Thiago"
-  },
-  "amanda": {
-    "senha": "scrypt:32768:8:1$wFtuoTZ1BvTVXvgo$6d8a0eaa7c0a0a7a98aa6c05775c64c066c1c99f8a42340cdf408480fa17829ca28794e9db8a96c7ca5629143a1c2c523d30460a224ef66bfd96a9d2efde6af0",
-    "tipo": "colaborador",
-    "nome": "Amanda"
-  },
-  "joaocarlos": {
-    "senha": "scrypt:32768:8:1$YapAMRxCnN1o9RQz$bdee600579ac2e1bfb7814bffe339cf066b3e24c922bd6b463201e5ed88ff85ce431e44b663ee973ed76067efbbccf448196d0864605795cc849ab270e42fbc4",
-    "tipo": "colaborador",
-    "nome": "João Carlos Del"
+    "nome": "Joao Carlos Silva dos Reis"
   }
 }
