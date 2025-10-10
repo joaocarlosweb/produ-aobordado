@@ -8,5 +8,15 @@
     "senha": "scrypt:32768:8:1$8vpPFHR1T3wLuEVT$13db9ab1c512af556ca4a11626828ecd8303a3ae3caefd0c5a7fe7cafeaacf03281ef9116f58cc471d87df09434045d4b1555e01eba7af7d8dff11107b1e523b",
     "tipo": "colaborador",
     "nome": "Joao Carlos Silva dos Reis"
+  },
+  "igor": {
+    "senha": "scrypt:32768:8:1$98VeNqQlpSjnchgT$3ecb93eabd4ac13652971e4cb02bf2d0ee4a0a2528ea874ae5e9b34d0fbbdf3f71171819adea5134b7ed25e58571f5fd0340ad42869056df06befc24020f5ce9",
+    "tipo": "colaborador",
+    "nome": "Igor Ederson"
+  },
+  "jose": {
+    "senha": "scrypt:32768:8:1$viO1DWqVNd7XSl9B$045538ac30940310a1ace0b19aefebfc6c5f71e5b64c2d3848c7cf5acb0dbfb54b54c856cf9d752d81b2c784a1405028bd295c7eb8efb60b07b9c37c5e5a1a5d",
+    "tipo": "colaborador",
+    "nome": "jose Antonio "
   }
 }

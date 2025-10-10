@@ -515,7 +515,6 @@ def add_usuario():
         'tipo': tipo
     }})
 
-# Adicione estas rotas no seu app.py
 
 # Rota para listar todos os usuários
 @app.route('/api/usuarios', methods=['GET'])
