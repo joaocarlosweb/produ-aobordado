@@ -409,7 +409,7 @@
     <div class="container">
         <div class="header">
             <h1>🔍 Buscar Pedido</h1>
-            <a href="/" class="btn btn-primary">← Voltar ao Dashboard</a>
+            <a href="{{ url_for('index') }}" class="btn btn-primary">← Voltar ao Dashboard</a>
         </div>
 
         <div class="search-card">
@@ -433,7 +433,7 @@
     </div>
 
     <script>
-        const API_URL = 'http://localhost:5000/api';
+        const API_URL = '/api';
 
         document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
