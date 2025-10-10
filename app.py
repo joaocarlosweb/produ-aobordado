@@ -341,8 +341,6 @@ def get_estatisticas():
     })
 
 
-# Adicione esta rota no seu app.py, após a rota /api/estatisticas
-
 @app.route('/api/buscar-pedido/<pedido_id>', methods=['GET'])
 def buscar_pedido(pedido_id):
     """Busca todos os registros de um pedido específico e agrupa por bordador e posição"""
@@ -478,7 +476,6 @@ def buscar_pedido(pedido_id):
         'success': True,
         'resultado': resultado
     })
-
 
 # Rota para Gerente adicionar usuários
 @app.route('/api/usuarios', methods=['POST'])
