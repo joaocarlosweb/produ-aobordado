@@ -748,8 +748,8 @@
                 <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
                     <h2>Registros de Produção</h2>
                     <div id="gerenteActions" class="hidden" style="display: flex; gap: 10px;">
-                        <a href="/pesquisa" class="btn btn-primary">🔍 Pesquisa</a>
-                        <a href="/gerenciamento" class="btn btn-secondary">⚙️ Gerenciamento</a>
+                        <a href="{{ url_for('pesquisa') }}" class="btn btn-primary">🔍 Pesquisa</a>
+                        <a href="{{ url_for('gerenciamento') }}" class="btn btn-secondary">⚙️ Gerenciamento</a>
 
                         <button class="btn btn-primary btn-icon" onclick="exportarExcel()">
                             Exportar
