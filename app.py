@@ -223,7 +223,7 @@ def delete_producao(id):
     dados = [d for d in dados if d.get('id') != id]
     salvar_dados(dados)
     return jsonify({'success': True})
-
+    
 
 # Rota de Exportação
 @app.route('/api/exportar', methods=['POST'])
