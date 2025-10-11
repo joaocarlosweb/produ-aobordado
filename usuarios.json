@@ -5,18 +5,23 @@
     "nome": "Anderson"
   },
   "joao": {
-    "senha": "scrypt:32768:8:1$8vpPFHR1T3wLuEVT$13db9ab1c512af556ca4a11626828ecd8303a3ae3caefd0c5a7fe7cafeaacf03281ef9116f58cc471d87df09434045d4b1555e01eba7af7d8dff11107b1e523b",
+    "senha": "scrypt:32768:8:1$PsX0Wmm5FUvvj3G2$dda6cfe7abf220664814b2520a1df05f79ce7d59312c84d38b3c32c5214480365263720eb330f7c013617367652da61e2ef1d5fac751f31f0084ad52b97052d1",
     "tipo": "colaborador",
     "nome": "Joao Carlos Silva dos Reis"
   },
   "igor": {
-    "senha": "scrypt:32768:8:1$98VeNqQlpSjnchgT$3ecb93eabd4ac13652971e4cb02bf2d0ee4a0a2528ea874ae5e9b34d0fbbdf3f71171819adea5134b7ed25e58571f5fd0340ad42869056df06befc24020f5ce9",
+    "senha": "scrypt:32768:8:1$7H9X0vLazsuNiAkt$86a77df2a3d05763fedabb671a63fc15800194db36f43d24fa0d55b21d1eb5055b0feb0782e2d50ab56d007773adcc4543cde994b28eac273b7b7a9dccf8c705",
     "tipo": "colaborador",
     "nome": "Igor Ederson"
   },
-  "jose": {
-    "senha": "scrypt:32768:8:1$viO1DWqVNd7XSl9B$045538ac30940310a1ace0b19aefebfc6c5f71e5b64c2d3848c7cf5acb0dbfb54b54c856cf9d752d81b2c784a1405028bd295c7eb8efb60b07b9c37c5e5a1a5d",
+  "novinho": {
+    "senha": "scrypt:32768:8:1$M4Z4CdqI0bY5pg9s$b7f582e737d2270933845e37ed65d4940357b65b364c98cd3eb2ede6f397ca97b17dfc29b13a1861492760cad58bc3d73f9b3aaa3f032b77f0e33d2c12d236cc",
     "tipo": "colaborador",
-    "nome": "jose Antonio "
+    "nome": "Silvanaldo dos Santos"
+  },
+  "moises": {
+    "senha": "scrypt:32768:8:1$KY70gijmJaA7uTa0$df65e0e1736bbda6f42c0110ac1d160ed4e0278c10ec93a3d2ec8f4c55ca552696d72619e003e5c0cf60eb45bbb08fa4939656e356bea1d33d6e75c3dc6efc4d",
+    "tipo": "colaborador",
+    "nome": "Moisés Moura"
   }
 }
