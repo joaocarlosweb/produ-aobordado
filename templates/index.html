@@ -563,8 +563,12 @@
             }
 
             .btn {
-                font-size: 13px;
+                font-size: 10px;
                 padding: 10px 18px;
+            }
+
+            .gerenc{
+                font-size: 10px;
             }
         }
     </style>
@@ -616,7 +620,7 @@
         </div>
         <div class="header">
             <a href="{{ url_for('pesquisa') }}" class="btn btn-primary">🔍 Pesquisa</a>
-            <a href="{{ url_for('gerenciamento') }}" class="btn btn-primary">⚙️ Gerenciamento</a>
+
         </div>
 
         <div id="gerenteStatsFilter" class="filter-card hidden">
@@ -738,7 +742,7 @@
                     <h2>Registros de Produção</h2>
                     <div id="gerenteActions" class="hidden" style="display: flex; gap: 10px;">
 
-
+                        <a href="{{ url_for('gerenciamento') }}" class="btn btn-primary" id="gerenc">⚙️ Gerenciamento</a>
                         <button class="btn btn-primary btn-icon" onclick="exportarExcel()">
                             Exportar
                         </button>
