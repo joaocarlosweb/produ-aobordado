@@ -742,7 +742,7 @@
                     <h2>Registros de Produção</h2>
                     <div id="gerenteActions" class="hidden" style="display: flex; gap: 10px;">
 
-                        <a href="{{ url_for('gerenciamento') }}" class="btn btn-primary" id="gerenc">⚙️ Gerenciamento</a>
+
                         <button class="btn btn-primary btn-icon" onclick="exportarExcel()">
                             Exportar
                         </button>
@@ -783,6 +783,9 @@
             <div class="card hidden" id="cardBordadores">
                 <div class="card-header">
                     <h2>Gerenciar Bordadores</h2>
+                </div>
+                <div>
+                    <a href="{{ url_for('gerenciamento') }}" class="btn btn-primary" id="gerenc">⚙️ Gerenciamento</a>
                 </div>
                 <div class="table-container">
 
