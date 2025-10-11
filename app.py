@@ -224,6 +224,7 @@ def delete_producao(id):
     salvar_dados(dados)
     return jsonify({'success': True})
 
+
 # Rota de Exportação
 @app.route('/api/exportar', methods=['POST'])
 def exportar_excel():
@@ -477,17 +478,30 @@ def buscar_pedido(pedido_id):
         'resultado': resultado
     })
 
+# Adicionar a primeira produção e criar uma lista de dados de produção automatica 
+def caminho_producao_diaria():
+    """Retorna o caminho do arquivo da produção do dia."""
+    hoje = date.today().strftime("%Y-%m-%d")
+    return f"dados_producao_{hoje}.json"
 
 def carregar_producao():
-    if not os.path.exists('dados_producao.json'):
-        with open('dados_producao.json', 'w', encoding='utf-8') as f:
-            json.dump([], f, ensure_ascii=False, indent=4)
+    """Carrega o arquivo de produção do dia, criando se não existir."""
+    caminho = caminho_producao_diaria()
+    if not os.path.exists(caminho):
+        with open(caminho, "w", encoding="utf-8") as f:
+            json.dump([], f, indent=4, ensure_ascii=False)
         return []
-    with open('dados_producao.json', 'r', encoding='utf-8') as f:
+    with open(caminho, "r", encoding="utf-8") as f:
         try:
             return json.load(f)
         except json.JSONDecodeError:
             return []
+
+def salvar_producao(dados):
+    """Salva as produções do dia no arquivo correto."""
+    caminho = caminho_producao_diaria()
+    with open(caminho, "w", encoding="utf-8") as f:
+        json.dump(dados, f, indent=4, ensure_ascii=False)
 
 
 # Rota para Gerente adicionar usuários

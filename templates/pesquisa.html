@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +38,7 @@
             background: white;
             padding: 20px 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
@@ -78,7 +79,7 @@
             background: white;
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
@@ -143,7 +144,7 @@
             padding: 25px;
             border-radius: 15px;
             margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .results-header h2 {
@@ -159,7 +160,7 @@
         }
 
         .stat-item {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             padding: 15px;
             border-radius: 10px;
             backdrop-filter: blur(10px);
@@ -186,13 +187,13 @@
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s;
         }
 
         .position-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
         }
 
         .position-header {
@@ -289,7 +290,7 @@
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
         }
 
@@ -364,7 +365,7 @@
             padding: 60px;
             border-radius: 15px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .no-results-icon {
@@ -405,6 +406,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -416,12 +418,7 @@
             <form class="search-form" id="searchForm">
                 <div class="form-group">
                     <label for="pedidoId">ID do Pedido</label>
-                    <input 
-                        type="text" 
-                        id="pedidoId" 
-                        placeholder="Digite o ID do pedido (ex: 1425487)"
-                        required
-                    >
+                    <input type="text" id="pedidoId" placeholder="Digite o ID do pedido (ex: 1425487)" required>
                 </div>
                 <button type="submit" class="btn-search">🔎 Buscar</button>
             </form>
@@ -438,7 +435,7 @@
         document.getElementById('searchForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const pedidoId = document.getElementById('pedidoId').value.trim();
-            
+
             if (!pedidoId) return;
 
             await buscarPedido(pedidoId);
@@ -464,7 +461,7 @@
                 }
 
                 const resultado = data.resultado;
-                
+
                 resultsContainer.style.display = 'block';
                 resultsContainer.innerHTML = `
                     <div class="results-header">
@@ -506,12 +503,12 @@
                         <h4>👤 ${nome}</h4>
                         <div class="bordador-positions">
                             ${info.posicoes.map(pos => {
-                                let badgeClass = 'position-badge-';
-                                if (pos === 'Frente') badgeClass += 'frente';
-                                else if (pos === 'Lateral') badgeClass += 'lateral';
-                                else if (pos === 'Traseira') badgeClass += 'traseira';
-                                return `<span class="position-badge ${badgeClass}">${pos}</span>`;
-                            }).join('')}
+                let badgeClass = 'position-badge-';
+                if (pos === 'Frente') badgeClass += 'frente';
+                else if (pos === 'Lateral') badgeClass += 'lateral';
+                else if (pos === 'Traseira') badgeClass += 'traseira';
+                return `<span class="position-badge ${badgeClass}">${pos}</span>`;
+            }).join('')}
                         </div>
                     </div>
                     <div class="bordador-stats">
@@ -597,4 +594,5 @@
         }
     </script>
 </body>
+
 </html>
