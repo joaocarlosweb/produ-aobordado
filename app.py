@@ -97,7 +97,7 @@ def login():
     return jsonify({'success': False, 'message': 'Credenciais inválidas'}), 401
 
 
-# # Rotas de Bordadores
+# Rotas de Bordadores
 @app.route('/api/bordadores', methods=['GET'])
 def get_bordadores():
     return jsonify(carregar_bordadores())
@@ -476,6 +476,19 @@ def buscar_pedido(pedido_id):
         'success': True,
         'resultado': resultado
     })
+
+
+def carregar_producao():
+    if not os.path.exists('dados_producao.json'):
+        with open('dados_producao.json', 'w', encoding='utf-8') as f:
+            json.dump([], f, ensure_ascii=False, indent=4)
+        return []
+    with open('dados_producao.json', 'r', encoding='utf-8') as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return []
+
 
 # Rota para Gerente adicionar usuários
 @app.route('/api/usuarios', methods=['POST'])
