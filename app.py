@@ -187,6 +187,85 @@ def get_producao():
     
     return jsonify(dados)
 
+# Adicione esta nova rota no seu app.py, após a rota /api/producao
+
+@app.route('/api/producao/filtrar', methods=['POST'])
+def filtrar_producao():
+    """Filtra produção por período de datas"""
+    data = request.json
+    dados = carregar_dados()
+    
+    data_inicio = data.get('data_inicio')
+    data_fim = data.get('data_fim')
+    bordador = data.get('bordador')
+    
+    # Filtrar por bordador se especificado
+    if bordador:
+        dados = [d for d in dados if d.get('Bordador') == bordador]
+    
+    # Filtrar por período se especificado
+    if data_inicio and data_fim:
+        dados_filtrados = []
+        for d in dados:
+            data_registro = d.get('Data', '')
+            if data_registro and data_inicio <= data_registro <= data_fim:
+                dados_filtrados.append(d)
+        dados = dados_filtrados
+    
+    return jsonify({
+        'success': True,
+        'dados': dados,
+        'total': len(dados)
+    })
+
+
+@app.route('/api/estatisticas/filtrar', methods=['POST'])
+def filtrar_estatisticas():
+    """Calcula estatísticas filtradas por período"""
+    data = request.json
+    dados = carregar_dados()
+    
+    data_inicio = data.get('data_inicio')
+    data_fim = data.get('data_fim')
+    bordador = data.get('bordador')
+    
+    # Filtrar por bordador se especificado
+    if bordador:
+        dados = [d for d in dados if d.get('Bordador') == bordador]
+    
+    # Filtrar por período se especificado
+    if data_inicio and data_fim:
+        dados_filtrados = []
+        for d in dados:
+            data_registro = d.get('Data', '')
+            if data_registro and data_inicio <= data_registro <= data_fim:
+                dados_filtrados.append(d)
+        dados = dados_filtrados
+    
+    total_registros = len(dados)
+    total_pecas = 0
+    total_pontos = 0
+    
+    for d in dados:
+        try:
+            qtd = int(''.join(filter(str.isdigit, str(d.get('QTD', '0')))))
+            total_pecas += qtd
+        except:
+            pass
+        
+        try:
+            pontos = int(''.join(filter(str.isdigit, str(d.get('PONTOS', '0')))))
+            total_pontos += pontos
+        except:
+            pass
+    
+    return jsonify({
+        'success': True,
+        'total_registros': total_registros,
+        'total_pecas': total_pecas,
+        'total_pontos': total_pontos
+    })
+
 @app.route('/api/producao', methods=['POST'])
 def add_producao():
     data = request.json
@@ -230,82 +309,125 @@ def delete_producao(id):
 def exportar_excel():
     import zipfile
     from io import BytesIO
-    
-    dados = carregar_dados()
-    
-    if not dados:
-        return jsonify({'success': False, 'message': 'Sem dados para exportar'}), 400
-    
-    df_completo = pd.DataFrame(dados)
-    
-    # Remover colunas técnicas
-    colunas_remover = ['id', 'timestamp']
-    df_completo = df_completo.drop(columns=[col for col in colunas_remover if col in df_completo.columns])
-    
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    
-    # Criar um buffer de memória para o ZIP
-    zip_buffer = BytesIO()
-    
-    with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
-        # 1. Planilha completa
-        excel_buffer = BytesIO()
-        with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
-            df_completo.to_excel(writer, index=False, sheet_name='Produção')
-            worksheet = writer.sheets['Produção']
-            
-            # Ajustar larguras
-            for idx, col in enumerate(df_completo.columns, 1):
-                max_length = max(df_completo[col].astype(str).apply(len).max(), len(col)) + 2
-                col_letter = chr(64 + idx) if idx <= 26 else f"A{chr(64 + idx - 26)}"
-                worksheet.column_dimensions[col_letter].width = min(max_length, 30)
-            
-            # Formatar cabeçalho
-            from openpyxl.styles import Font, PatternFill, Alignment
-            
-            for cell in worksheet[1]:
-                cell.font = Font(bold=True, size=11, color="FFFFFF")
-                cell.fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
-                cell.alignment = Alignment(horizontal='center', vertical='center')
-        
-        excel_buffer.seek(0)
-        zip_file.writestr(f'producao_completa_{timestamp}.xlsx', excel_buffer.read())
-        
-        # 2. Planilha por bordador
-        bordadores = df_completo['Bordador'].unique()
-        
-        for bordador in bordadores:
-            df_bordador = df_completo[df_completo['Bordador'] == bordador]
-            
+    import re
+    from datetime import datetime
+    from openpyxl.styles import Font, PatternFill, Alignment
+    from openpyxl.utils import get_column_letter
+    import traceback
+
+    try:
+        dados = carregar_dados()
+        app.logger.info(f"[exportar] registros encontrados: {len(dados)}")
+
+        if not dados:
+            return jsonify({'success': False, 'message': 'Sem dados para exportar'}), 400
+
+        df_completo = pd.DataFrame(dados)
+        # remover colunas técnicas se existirem
+        colunas_remover = ['id', 'timestamp']
+        df_completo = df_completo.drop(columns=[c for c in colunas_remover if c in df_completo.columns])
+
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        def sanitize_filename(name, max_len=100):
+            if not name:
+                name = "sem_nome"
+            name = str(name)
+            name = re.sub(r'[<>:"/\\|?*\n\r\t]', '_', name)
+            name = re.sub(r'[\. ]+$', '', name)
+            return name[:max_len]
+
+        zip_buffer = BytesIO()
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            # planilha completa
             excel_buffer = BytesIO()
             with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
-                df_bordador.to_excel(writer, index=False, sheet_name='Produção')
-                worksheet = writer.sheets['Produção']
-                
-                # Ajustar larguras
-                for idx, col in enumerate(df_bordador.columns, 1):
-                    max_length = max(df_bordador[col].astype(str).apply(len).max(), len(col)) + 2
-                    col_letter = chr(64 + idx) if idx <= 26 else f"A{chr(64 + idx - 26)}"
-                    worksheet.column_dimensions[col_letter].width = min(max_length, 30)
-                
-                # Formatar cabeçalho
-                for cell in worksheet[1]:
+                df_completo.to_excel(writer, index=False, sheet_name='Produção')
+                ws = writer.sheets['Produção']
+
+                for idx, col in enumerate(df_completo.columns, 1):
+                    try:
+                        max_len = max(df_completo[col].astype(str).apply(len).max(), len(col)) + 2
+                    except Exception:
+                        max_len = len(col) + 2
+                    ws.column_dimensions[get_column_letter(idx)].width = min(max_len, 60)
+
+                for cell in ws[1]:
                     cell.font = Font(bold=True, size=11, color="FFFFFF")
-                    cell.fill = PatternFill(start_color="10b981", end_color="10b981", fill_type="solid")
+                    cell.fill = PatternFill(start_color="4472C4", end_color="4472C4", fill_type="solid")
                     cell.alignment = Alignment(horizontal='center', vertical='center')
-            
+
             excel_buffer.seek(0)
-            filename = f'{bordador.replace(" ", "_")}_{timestamp}.xlsx'
-            zip_file.writestr(filename, excel_buffer.read())
-    
-    zip_buffer.seek(0)
-    
-    return send_file(
-        zip_buffer,
-        mimetype='application/zip',
-        as_attachment=True,
-        download_name=f'producao_completa_{timestamp}.zip'
-    )
+            zip_file.writestr(f'producao_completa_{timestamp}.xlsx', excel_buffer.read())
+
+            # por bordador
+            if 'Bordador' in df_completo.columns:
+                bordadores = df_completo['Bordador'].dropna().unique()
+            else:
+                bordadores = []
+
+            app.logger.info(f"[exportar] bordadores: {bordadores}")
+
+            for bordador in bordadores:
+                df_b = df_completo[df_completo['Bordador'] == bordador]
+                excel_buffer = BytesIO()
+                with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
+                    df_b.to_excel(writer, index=False, sheet_name='Produção')
+                    ws = writer.sheets['Produção']
+
+                    for idx, col in enumerate(df_b.columns, 1):
+                        try:
+                            max_len = max(df_b[col].astype(str).apply(len).max(), len(col)) + 2
+                        except Exception:
+                            max_len = len(col) + 2
+                        ws.column_dimensions[get_column_letter(idx)].width = min(max_len, 60)
+
+                    for cell in ws[1]:
+                        cell.font = Font(bold=True, size=11, color="FFFFFF")
+                        cell.fill = PatternFill(start_color="10b981", end_color="10b981", fill_type="solid")
+                        cell.alignment = Alignment(horizontal='center', vertical='center')
+
+                excel_buffer.seek(0)
+                filename = f"{sanitize_filename(bordador)}_{timestamp}.xlsx"
+                zip_file.writestr(filename, excel_buffer.read())
+
+        # garantir ponteiro no início
+        zip_buffer.seek(0)
+
+        # tentar enviar em memória
+        try:
+            response = send_file(
+                zip_buffer,
+                mimetype='application/zip',
+                as_attachment=True,
+                download_name=f'producao_completa_{timestamp}.zip',
+                conditional=False,
+                max_age=0
+            )
+            # só limpar os dados se o send_file não levantar exceção
+            salvar_dados([])
+            app.logger.info("[exportar] dados limpos após exportação")
+            return response
+
+        except Exception as e_send:
+            # fallback: gravar arquivo temporário no disco e enviá-lo (menor chance de problemas)
+            app.logger.error("[exportar] erro ao enviar em memória, tentando fallback em disco: " + str(e_send))
+            traceback.print_exc()
+            temp_path = f"/tmp/producao_completa_{timestamp}.zip"
+            with open(temp_path, "wb") as f:
+                f.write(zip_buffer.getvalue())
+            # limpar dados
+            salvar_dados([])
+            app.logger.info("[exportar] dados limpos após exportação (fallback em disco)")
+            return send_file(temp_path, as_attachment=True, download_name=f'producao_completa_{timestamp}.zip')
+
+    except Exception as e:
+        app.logger.error("[exportar] erro: " + str(e))
+        traceback.print_exc()
+        return jsonify({'success': False, 'message': 'Erro interno ao exportar', 'error': str(e)}), 500
+
+
+
 
 # Rota de Estatísticas
 @app.route('/api/estatisticas', methods=['GET'])
